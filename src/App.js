@@ -5,10 +5,12 @@ import StreamCreate from './components/streams/StreamCreate';
 import StreamEdit from './components/streams/StreamEdit';
 import StreamDelete from './components/streams/StreamDelete';
 import StreamShow from './components/streams/StreamShow';
+import Header from './components/Header';
 
 const App = () => {
 	return (
 		<BrowserRouter>
+			<Header />
 			<div>
 				<Route path='/' exact component={StreamList} />
 				<Route path='/streams/new' exact component={StreamCreate} />
