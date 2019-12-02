@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const PageOne = () => {
+	return (
+		<div>
+			PageOne
+			{/* using <a> is a Bad !! Approach */}
+			<Link to='/pageTwo'>Go to Page 2</Link>
+		</div>
+	);
+};
+
+const PageTwo = () => {
+	return (
+		<div>
+			PageTwo
+			{/* using <a> is a Bad !! Approach */}
+			<Link to='/'>Go to Page 1</Link>
+		</div>
+	);
+};
+
+const App = () => {
+	return (
+		<div>
+			<BrowserRouter>
+				<div>
+					<Route path='/' exact component={PageOne} />
+					<Route path='/pageTwo' component={PageTwo} />
+				</div>
+			</BrowserRouter>
+		</div>
+	);
+};
 
 export default App;
