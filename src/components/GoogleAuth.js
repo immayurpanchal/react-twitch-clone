@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { signIn, signOut } from "../actions";
 
 class GoogleAuth extends Component {
   responseGoogle = res => {
@@ -9,7 +10,7 @@ class GoogleAuth extends Component {
   };
 
   responseGoogleLogout = () => {
-    this.props.setProfile("", "", "");
+    this.props.removeProfile();
   };
 
   render() {
@@ -42,7 +43,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setProfile: (email, name, imageUrl) =>
-      dispatch({ type: "SUCCESS", payload: { email, name, imageUrl } })
+      dispatch(signIn({ email, name, imageUrl })),
+    removeProfile: () => dispatch(signOut())
   };
 };
 

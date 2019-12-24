@@ -1,11 +1,24 @@
-export const signIn = () => {
-	return {
-		type : 'SIGN_IN'
-	};
+import streams from "../apis/streams";
+import { SIGN_IN, SIGN_OUT } from "./types";
+
+// signIn method is an action creator which returns
+// actions object
+export const signIn = payload => {
+  return {
+    type: SIGN_IN,
+    payload
+  };
 };
 
-export const signOut = () => {
-	return {
-		type : 'SIGN_OUT'
-	};
+export const signOut = payload => {
+  return {
+    type: SIGN_OUT,
+    payload
+  };
+};
+
+export const streamCreate = formValues => {
+  return async dispatch => {
+    streams.post(formValues);
+  };
 };

@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
+import { streamCreate } from "../../actions";
+import streams from "../../apis/streams";
 
 const StreamCreate = props => {
   const renderError = ({ touched, error }) => {
@@ -25,7 +27,10 @@ const StreamCreate = props => {
     );
   };
 
-  const onSubmit = formValues => {};
+  const onSubmit = formValues => {
+    // streams.post(formValues);
+    streams.post("/", formValues);
+  };
 
   return (
     <div>
@@ -62,7 +67,14 @@ const validate = formValues => {
   return error;
 };
 
+// 1. Easy way to wrap reduxForm and connect
 export default compose(
-  connect(),
+  connect(null, { streamCreate }),
   reduxForm({ form: "streamCreate", validate })
 )(StreamCreate);
+
+/* 
+// 2. Another way to wrap reduxForm and connect
+const formWrapped = reduxForm({ form: "streamCreate", validate });
+export default connect(null, { streamCreate })(formWrapped);
+*/
