@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import { streamCreate } from "../../actions";
-import streams from "../../apis/streams";
 
 const StreamCreate = props => {
   const renderError = ({ touched, error }) => {
@@ -28,8 +27,7 @@ const StreamCreate = props => {
   };
 
   const onSubmit = formValues => {
-    // streams.post(formValues);
-    streams.post("/", formValues);
+    props.streamCreate(formValues);
   };
 
   return (

@@ -1,11 +1,34 @@
 import React from "react";
 import { fetchStreams } from "../../actions/index";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class StreamList extends React.Component {
   componentDidMount() {
     this.props.fetchStreams();
   }
+
+  renderAdmin = stream => {
+    if (stream.googleId === this.props.currentUserId) {
+      return (
+        <div className="right floated content">
+          <button className="ui button primary">EDIT</button>
+          <button className="ui button negative">DELETE</button>
+        </div>
+      );
+    }
+  };
+
+  renderCreate = () => {
+    if (this.props.isSignedIn)
+      return (
+        <div style={{ textAlign: "right" }}>
+          <Link to="/streams/new" className="ui button primary">
+            Create Stream
+          </Link>
+        </div>
+      );
+  };
 
   renderList = () => {
     if (!this.props.streams) {
@@ -20,6 +43,7 @@ class StreamList extends React.Component {
             {stream.title}
             <div className="description">{stream.description}</div>
           </div>
+          {this.renderAdmin(stream)}
         </div>
       );
     });
@@ -30,6 +54,7 @@ class StreamList extends React.Component {
       <div>
         <h2>Streams</h2>
         <div className="ui celled list">{this.renderList()}</div>
+        {this.renderCreate()}
       </div>
     );
   }
@@ -37,7 +62,9 @@ class StreamList extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    streams: Object.values(state.streams)
+    streams: Object.values(state.streams),
+    currentUserId: state.profile.googleId,
+    isSignedIn: state.profile.email
   };
 };
 

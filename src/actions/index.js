@@ -26,8 +26,16 @@ export const signOut = payload => {
 };
 
 export const streamCreate = formValues => {
-  return async dispatch => {
-    const response = await streams.post("/streams", formValues);
+  return async (dispatch, getState) => {
+    const {
+      profile: { googleId }
+    } = getState();
+
+    const response = await streams.post("/streams", {
+      ...formValues,
+      googleId
+    });
+
     dispatch({ type: CREATE_STREAM, payload: response.data });
   };
 };
