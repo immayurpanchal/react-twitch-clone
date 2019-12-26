@@ -8,6 +8,7 @@ import {
   DELETE_STREAM,
   EDIT_STREAM
 } from "./types";
+import history from "../history";
 
 // signIn method is an action creator which returns
 // actions object
@@ -37,6 +38,7 @@ export const streamCreate = formValues => {
     });
 
     dispatch({ type: CREATE_STREAM, payload: response.data });
+    history.push("/");
   };
 };
 
@@ -65,5 +67,6 @@ export const editStream = (id, formValues) => {
   return async dispatch => {
     const response = await streams.patch(`/streams/${id}`, formValues);
     dispatch({ type: EDIT_STREAM, payload: response.data });
+    history.push("/");
   };
 };
