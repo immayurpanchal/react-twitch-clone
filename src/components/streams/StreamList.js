@@ -1,26 +1,50 @@
 import React from "react";
+import { fetchStreams } from "../../actions/index";
 import { connect } from "react-redux";
 
-const StreamList = props => {
-  const {
-    profile: { name, email, imageUrl }
-  } = props;
-  return (
-    <div>
-      {email && (
-        <div>
-          <h1>{name}</h1>
-          <h1>{email}</h1>
-          <img src={imageUrl} alt="user" />
+class StreamList extends React.Component {
+  componentDidMount() {
+    this.props.fetchStreams();
+  }
+
+  renderList = () => {
+    if (!this.props.streams) {
+      return <div>Loading...</div>;
+    }
+
+    return this.props.streams.map(stream => {
+      return (
+        <div className="item" key={stream.id}>
+          <i className="large middle aligned icon camera" />
+          <div className="content">
+            {stream.title}
+            <div className="description">{stream.description}</div>
+          </div>
         </div>
-      )}
-    </div>
-  );
-};
+      );
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <h2>Streams</h2>
+        <div className="ui celled list">{this.renderList()}</div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
-    profile: state.profile
+    streams: Object.values(state.streams)
   };
 };
-export default connect(mapStateToProps)(StreamList);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchStreams: () => dispatch(fetchStreams())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StreamList);
